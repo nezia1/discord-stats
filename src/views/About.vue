@@ -73,6 +73,7 @@
   .explanation {
     font-family: 'Whitney';
     font-weight: normal;
+    text-align: justify;
   }
 
   a {
