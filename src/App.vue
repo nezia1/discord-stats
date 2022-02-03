@@ -15,23 +15,24 @@
       </div>
     </header>
     <section v-else class="user-stats">
+      <h1>your data</h1>
       <header class="user-info">
         <figure class="avatar">
           <img :src="`data:image/png;base64,${avatar}`" alt="" srcset="" />
         </figure>
         <section class="user-infos">
-          <h2>username: {{ parsedData.user.username }}#{{ parsedData.user.discriminator }}</h2>
-          <h2>total messages: {{ parsedData.user.totalMessageCount }}</h2>
+          <h2>{{ parsedData.user.username }}#{{ parsedData.user.discriminator }}</h2>
+          <h2>total messages: {{ parsedData.user.totalMessageCount.toLocaleString('en-US') }}</h2>
         </section>
       </header>
-      <DoughnutChart :chartData="messagesChartData" :options="chartOptions" />
-      <h2>your top 3 servers:</h2>
-      <ul>
+      <DoughnutChart style="margin: 2rem" :chartData="messagesChartData" :options="chartOptions" />
+      <h2>your top 3 servers</h2>
+      <ul class="top-servers">
         <li
           v-for="(serverName, position) in messagesChartData.labels.slice(0, 3)"
           :key="serverName"
         >
-          #{{ position + 1 }}: {{ serverName }}
+          #{{ position + 1 }} • {{ serverName }}
         </li>
       </ul>
     </section>
@@ -179,21 +180,25 @@
   .user-stats {
     display: flex;
     width: 100%;
-    margin: 0 20%;
     flex-direction: column;
     align-items: center;
   }
+
   .user-info {
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: left;
   }
 
   .avatar {
     width: 100%;
     height: auto;
+    margin: 0;
+    margin-right: 1.5rem;
     flex-shrink: 1;
-    flex-basis: 15%;
+    flex-basis: 8%;
     background-size: contain;
     background-repeat: no-repeat;
   }
@@ -202,5 +207,10 @@
     width: 100%;
     height: auto;
     border-radius: 50%;
+  }
+
+  .top-servers {
+    list-style: none;
+    text-align: left;
   }
 </style>
