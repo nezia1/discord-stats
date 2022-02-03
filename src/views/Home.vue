@@ -132,7 +132,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .container {
     display: flex;
     width: 100%;
