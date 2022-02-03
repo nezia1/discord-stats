@@ -8,6 +8,15 @@
       <h2>username: {{ parsedData.user.username }}#{{ parsedData.user.discriminator }}</h2>
       <h2>total messages: {{ parsedData.user.totalMessageCount }}</h2>
       <DoughnutChart :chartData="messagesChartData" :options="chartOptions" />
+      <h2>your top 3 servers:</h2>
+      <ul>
+        <li
+          v-for="(serverName, position) in messagesChartData.labels.slice(0, 3)"
+          :key="serverName"
+        >
+          #{{ position + 1 }}: {{ serverName }}
+        </li>
+      </ul>
     </article>
   </main>
 </template>
