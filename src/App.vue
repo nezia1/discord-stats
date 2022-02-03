@@ -18,6 +18,7 @@
           totalMessageCount: this.getTotalMessages(servers),
         }
         this.parsedData = { user, servers }
+        this.avatar = this.getUserAvatar(discordData)
       },
       getParsedServersData(discordData) {
         const zip = new AdmZip(discordData.path)
@@ -63,11 +64,16 @@
         const { username, discriminator, email } = JSON.parse(jsonString)
         return { username, discriminator, email }
       },
+      getUserAvatar(discordData) {
+        const zip = new AdmZip(discordData.path)
+        return zip.readFile('account/avatar.png').toString('base64')
+      },
     },
     data() {
       return {
         isExtracting: null,
         parsedData: {},
+        avatar: '',
       }
     },
   }
