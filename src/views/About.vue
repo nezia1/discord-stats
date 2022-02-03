@@ -28,15 +28,24 @@
       <p>
         I started this project after being told by a friend that you could download your Discord
         data of everything that you ever did in nice computer friendly formats, and it made me think
-        "why not build something that might show people statistics?", and here I am now. As stated
-        before, the application is completely offline (I put a strong emphasis on privacy, hence why
-        the code is also open-source), so you can feel safe about having your data processed by this
-        application.
+        "why not build something that would show people statistics about their account?", and here I
+        am now. As stated before, the application is completely offline (I put a strong emphasis on
+        privacy, hence why the code is also open-source), so you can feel safe about having your
+        data processed by this application.
       </p>
       <p>
         Anyways, thanks for using it! I hope you could get some value out of it. If you want to buy
         me a coffee or support the development (or my other side projects), I have a
         <a @click.prevent="openInBrowser" href="https://ko-fi.com/nezia">ko-fi account</a>!
+      </p>
+      <h1>License and contributing</h1>
+      <p>
+        The project is released under the MIT license, which makes it completely open. Feel free to
+        fork it or send pull requests! I am grateful of any help I can get. If you wish to
+        contribute, here's a
+        <a href="https://github.com/Nezia1/discord-stats" @click.prevent="openInBrowser"
+          >link to the Github repository</a
+        >.
       </p>
     </article>
   </main>
@@ -55,7 +64,8 @@
 
 <style scoped>
   .container {
-    align-items: flex-start;
+    display: flex;
+    place-items: center;
     padding: 0 20%;
     height: auto;
   }
