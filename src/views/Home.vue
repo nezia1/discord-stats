@@ -108,16 +108,27 @@
         return zip.readFile('account/avatar.png').toString('base64')
       },
       getMessagesChartData(servers) {
-        let messagesChartData = { labels: [], datasets: [{ data: [] }] }
+        let messagesChartData = { labels: [], datasets: [{ data: [], backgroundColor: [] }] }
         servers
           .sort((a, b) => b.messageCount - a.messageCount)
           .forEach((server) => {
             messagesChartData.labels = [...messagesChartData.labels, server.name]
             messagesChartData.datasets = [
-              { data: [...messagesChartData.datasets[0].data, server.messageCount] },
+              {
+                data: [...messagesChartData.datasets[0].data, server.messageCount],
+                backgroundColor: [
+                  ...messagesChartData.datasets[0].backgroundColor,
+                  this.getRandomPastelColor(),
+                ],
+              },
             ]
           })
         return messagesChartData
+      },
+      getRandomPastelColor() {
+        const hue = Math.floor(Math.random() * 360)
+        const randomColor = `hsl(${hue}, 70%, 80%)`
+        return randomColor
       },
     },
     data() {
