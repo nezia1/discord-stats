@@ -2,7 +2,6 @@
   <main class="app">
     <nav class="nav">
       <router-link to="/">Home</router-link>
-      <router-link to="/how-to">How To</router-link>
       <router-link to="/about">About</router-link>
     </nav>
     <router-view />
@@ -17,10 +16,29 @@
     font-style: normal;
   }
 
-  html {
-    box-sizing: border-box;
+  @font-face {
+    font-family: 'Whitney';
+    src: url('~@/assets/fonts/whitney/whitneymedium.otf');
+    font-display: auto;
+    font-style: normal;
+    font-weight: 400;
   }
 
+  @font-face {
+    font-family: 'Whitney';
+    src: url('~@/assets/fonts/whitney/whitneysemibold.otf');
+    font-display: auto;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  @font-face {
+    font-family: 'Whitney';
+    src: url('~@/assets/fonts/whitney/whitneybold.otf');
+    font-display: auto;
+    font-style: normal;
+    font-weight: 900;
+  }
   *,
   *:before,
   *:after {
@@ -30,6 +48,7 @@
   :root {
     font-size: clamp(16px, 1vw, 24px);
     font-family: 'Uni Sans';
+    color: white;
   }
 
   .app {
@@ -37,7 +56,7 @@
     grid-template-rows: 5% auto 5%;
     background-color: #36393f;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
   }
 
   .nav {
