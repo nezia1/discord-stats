@@ -143,6 +143,9 @@
     color: white;
   }
 
+  .stats-intro h2 {
+    font-family: 'Whitney';
+  }
   .stats-input {
     opacity: 0;
     width: 0.1px;
@@ -167,6 +170,7 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
+    font-family: 'Whitney';
   }
 
   .user-info {
