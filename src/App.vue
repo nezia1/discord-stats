@@ -1,15 +1,29 @@
 <template>
-  <main>
-    <header class="stats-intro">
-      <h1></h1>
+  <main class="container">
+    <header v-if="Object.entries(parsedData).length === 0" class="stats-intro">
+      <h1>Discord Stats</h1>
+      <h2>Get statistics about your Discord usage.</h2>
+      <div class="stats-input-field">
+        <input
+          type="file"
+          class="stats-input"
+          id="stats-input"
+          accept="application/zip"
+          @change="handleData"
+        />
+        <label for="stats-input">Upload your data</label>
+      </div>
     </header>
-    <input type="file" accept="application/zip" @change="handleData" />
-    <article v-if="Object.entries(parsedData).length > 0" class="user-stats">
-      <figure class="avatar">
-        <img :src="`data:image/png;base64,${avatar}`" />
-      </figure>
-      <h2>username: {{ parsedData.user.username }}#{{ parsedData.user.discriminator }}</h2>
-      <h2>total messages: {{ parsedData.user.totalMessageCount }}</h2>
+    <section v-else class="user-stats">
+      <header class="user-info">
+        <figure class="avatar">
+          <img :src="`data:image/png;base64,${avatar}`" alt="" srcset="" />
+        </figure>
+        <section class="user-infos">
+          <h2>username: {{ parsedData.user.username }}#{{ parsedData.user.discriminator }}</h2>
+          <h2>total messages: {{ parsedData.user.totalMessageCount }}</h2>
+        </section>
+      </header>
       <DoughnutChart :chartData="messagesChartData" :options="chartOptions" />
       <h2>your top 3 servers:</h2>
       <ul>
@@ -20,7 +34,7 @@
           #{{ position + 1 }}: {{ serverName }}
         </li>
       </ul>
-    </article>
+    </section>
   </main>
 </template>
 
@@ -117,4 +131,76 @@
   }
 </script>
 
-<style></style>
+<style>
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  :root {
+    font-size: clamp(16px, 1vw, 24px);
+  }
+
+  .container {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #36393f;
+    color: white;
+  }
+
+  .stats-input {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+  }
+
+  .stats-input + label {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 3em;
+    border-radius: 0.2rem;
+    background-color: #5865f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-stats {
+    display: flex;
+    width: 100%;
+    margin: 0 20%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .user-info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 100%;
+    height: auto;
+    flex-shrink: 1;
+    flex-basis: 15%;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+</style>
