@@ -13,9 +13,7 @@
       handleData(e) {
         const discordData = e.target.files[0]
         const servers = this.getParsedServersData(discordData)
-        const totalMessageCount = servers.reduce((total, server) => {
-          return total + server.messageCount
-        }, 0)
+        const totalMessageCount = this.getTotalMessages(servers)
         this.parsedData = { totalMessageCount, servers }
       },
       getParsedServersData(discordData) {
@@ -50,6 +48,11 @@
               }
             })
         )
+      },
+      getTotalMessages(servers) {
+        return servers.reduce((total, server) => {
+          return total + server.messageCount
+        }, 0)
       },
     },
     data() {
