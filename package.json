@@ -14,8 +14,10 @@
   "main": "background.js",
   "dependencies": {
     "adm-zip": "^0.5.9",
+    "chart.js": "^3.7.0",
     "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vue-chart-3": "^3.0.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
