@@ -133,6 +133,13 @@
 </script>
 
 <style>
+  @font-face {
+    font-family: 'Uni Sans';
+    src: url('./assets/fonts/uni-sans/Uni Sans Heavy.otf');
+    font-display: auto;
+    font-style: normal;
+  }
+
   html {
     box-sizing: border-box;
   }
@@ -145,6 +152,7 @@
 
   :root {
     font-size: clamp(16px, 1vw, 24px);
+    font-family: 'Uni Sans';
   }
 
   .container {
