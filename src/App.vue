@@ -7,15 +7,18 @@
       </figure>
       <h2>username: {{ parsedData.user.username }}#{{ parsedData.user.discriminator }}</h2>
       <h2>total messages: {{ parsedData.user.totalMessageCount }}</h2>
+      <DoughnutChart :chartData="messagesChartData" :options="chartOptions" />
     </article>
   </main>
 </template>
 
 <script>
+  import { DoughnutChart } from 'vue-chart-3'
   const AdmZip = require('adm-zip')
 
   export default {
     name: 'App',
+    components: { DoughnutChart },
     methods: {
       handleData(e) {
         const discordData = e.target.files[0]
@@ -26,6 +29,7 @@
         }
         this.parsedData = { user, servers }
         this.avatar = this.getUserAvatar(discordData)
+        this.messagesChartData = this.getMessagesChartData(servers)
       },
       getParsedServersData(discordData) {
         const zip = new AdmZip(discordData.path)
@@ -75,12 +79,26 @@
         const zip = new AdmZip(discordData.path)
         return zip.readFile('account/avatar.png').toString('base64')
       },
+      getMessagesChartData(servers) {
+        let messagesChartData = { labels: [], datasets: [{ data: [] }] }
+        servers
+          .sort((a, b) => b.messageCount - a.messageCount)
+          .forEach((server) => {
+            messagesChartData.labels = [...messagesChartData.labels, server.name]
+            messagesChartData.datasets = [
+              { data: [...messagesChartData.datasets[0].data, server.messageCount] },
+            ]
+          })
+        return messagesChartData
+      },
     },
     data() {
       return {
         isExtracting: null,
         parsedData: {},
         avatar: '',
+        messagesChartData: [],
+        chartOptions: { plugins: { legend: { display: false } } },
       }
     },
   }
