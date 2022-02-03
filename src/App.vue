@@ -14,18 +14,32 @@
         const discordData = e.target.files[0]
         const zip = new AdmZip(discordData.path)
         const zipEntries = zip.getEntries()
-        // Get list of servers with their ids
-        const servers = []
+        let servers = []
+        let totalMessageCount = 0
+        // Get message count per server and create an entry in the servers array
         zipEntries.forEach((zipEntry) => {
           if (!zipEntry.isDirectory) {
-            if (zipEntry.name === 'guild.json') {
-              const jsonString = zipEntry.getData().toString()
-              servers.push(JSON.parse(jsonString))
+            const serverRegex = /messages\/(?<channelId>.+)\/messages.csv/
+            const serverMatch = serverRegex.exec(zipEntry.entryName)
+            if (serverMatch !== null) {
+              const channelId = serverMatch.groups.channelId
+              // Gets the related channel.json file using the channel id
+              const jsonString = zip.readFile(`messages/${channelId}/channel.json`).toString()
+              const channel = JSON.parse(jsonString)
+              // If channel.json has no guild property, it's a DM / group DM conversation
+              if ('guild' in channel) {
+                const serverMessageCount = zipEntry.getData().toString().split('\n').length
+                totalMessageCount += serverMessageCount
+                servers.push({
+                  id: channel.guild.id,
+                  name: channel.guild.name,
+                  messageCount: serverMessageCount,
+                })
+              }
             }
           }
         })
-        this.parsedData = { ...this.parsedData, servers }
-        console.log(this.parsedData)
+        this.parsedData = { totalMessageCount, servers }
       },
     },
     data() {
