@@ -13,8 +13,11 @@
       handleData(e) {
         const discordData = e.target.files[0]
         const servers = this.getParsedServersData(discordData)
-        const totalMessageCount = this.getTotalMessages(servers)
-        this.parsedData = { totalMessageCount, servers }
+        const user = {
+          ...this.getUserData(discordData),
+          totalMessageCount: this.getTotalMessages(servers),
+        }
+        this.parsedData = { user, servers }
       },
       getParsedServersData(discordData) {
         const zip = new AdmZip(discordData.path)
@@ -53,6 +56,12 @@
         return servers.reduce((total, server) => {
           return total + server.messageCount
         }, 0)
+      },
+      getUserData(discordData) {
+        const zip = new AdmZip(discordData.path)
+        const jsonString = zip.readFile('account/user.json').toString()
+        const { username, discriminator, email } = JSON.parse(jsonString)
+        return { username, discriminator, email }
       },
     },
     data() {
