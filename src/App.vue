@@ -1,6 +1,13 @@
 <template>
   <main>
     <input type="file" accept="application/zip" @change="handleData" />
+    <article v-if="Object.entries(parsedData).length > 0" class="user-stats">
+      <figure class="avatar">
+        <img :src="`data:image/png;base64,${avatar}`" />
+      </figure>
+      <h2>username: {{ parsedData.user.username }}#{{ parsedData.user.discriminator }}</h2>
+      <h2>total messages: {{ parsedData.user.totalMessageCount }}</h2>
+    </article>
   </main>
 </template>
 
