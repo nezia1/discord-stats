@@ -13,6 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@fast-csv/parse": "^4.3.6",
     "adm-zip": "^0.5.9",
     "chart.js": "^3.7.0",
     "core-js": "^3.6.5",
