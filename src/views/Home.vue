@@ -43,6 +43,7 @@
   import { DoughnutChart } from 'vue-chart-3'
   import 'normalize.css'
   const AdmZip = require('adm-zip')
+  import { parseString } from '@fast-csv/parse'
 
   export default {
     name: 'Home',
@@ -80,14 +81,17 @@
               }
             })
             .map((zipEntry) => {
+              const messagesData = zipEntry.getData()
               const channelId = zipEntry.entryName.split('/')[1]
               const jsonString = zip.readFile(`messages/${channelId}/channel.json`).toString()
               const channel = JSON.parse(jsonString)
-              const serverMessageCount = zipEntry.getData().toString().split('\n').length
+              const serverMessageCount = messagesData.toString().split('\n').length
+              const messagesPerHour = this.getMessageCountPerHour(messagesData)
               return {
                 id: channel.guild.id,
                 name: channel.guild.name,
                 messageCount: serverMessageCount,
+                messagesPerHour,
               }
             })
         )
@@ -129,6 +133,14 @@
         const hue = Math.floor(Math.random() * 360)
         const randomColor = `hsl(${hue}, 70%, 80%)`
         return randomColor
+      },
+      getMessageCountPerHour(str) {
+        let messagesHours = Array(24).fill(0)
+        parseString(str, { headers: true }).on('data', (row) => {
+          const hour = new Date(row.Timestamp).getHours()
+          messagesHours[hour]++
+        })
+        return messagesHours
       },
     },
     data() {
