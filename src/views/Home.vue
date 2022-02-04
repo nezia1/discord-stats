@@ -87,6 +87,7 @@
               const channel = JSON.parse(jsonString)
               const serverMessageCount = messagesData.toString().split('\n').length
               const messagesPerHour = this.getMessageCountPerHour(messagesData)
+              console.log(messagesPerHour)
               return {
                 id: channel.guild.id,
                 name: channel.guild.name,
@@ -135,10 +136,15 @@
         return randomColor
       },
       getMessageCountPerHour(str) {
-        let messagesHours = Array(24).fill(0)
+        let messagesHours = Array(24)
+
+        // This formatting is here so it can be used easily with Chart.js'
+        for (let index = 0; index < messagesHours.length; index++) {
+          messagesHours[index] = { hour: new Date().setHours(index), messageCount: 0 }
+        }
         parseString(str, { headers: true }).on('data', (row) => {
           const hour = new Date(row.Timestamp).getHours()
-          messagesHours[hour]++
+          messagesHours[hour].messageCount++
         })
         return messagesHours
       },
